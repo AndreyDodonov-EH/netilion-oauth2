@@ -1,0 +1,8 @@
+{
+  "name": "netilion-oauth2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/AndreyDodonov-EH/netilion-oauth2",
+  "author": "Andrey.Dodonov@endress.com",
+  "license": "MIT"
+}

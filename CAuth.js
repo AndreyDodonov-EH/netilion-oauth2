@@ -1,9 +1,6 @@
 const axios = require('axios');
 const queryString = require('querystring');
 
-// THIS HAS TO BE USED AT LEAST ONCE TO ACCESS process.env
-const config = require('../env');
-
 module.exports = class CAppAuth {
     constructor(baseURL) {
         this.authServer = axios.create({
