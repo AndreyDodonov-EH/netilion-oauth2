@@ -67,7 +67,7 @@ module.exports = class CAppAuth {
         this.token = data.access_token;
         this.refreshToken = data.refresh_token;
         setTimeout(this.refresh.bind(this), data.expires_in*1000*process.env.ADVANCE_REFRESH);
-        if (this.tokenRefreshCallback !== undefined && this.tokenRefreshCallback === 'function') {
+        if (this.tokenRefreshCallback !== undefined && typeof this.tokenRefreshCallback === 'function') {
             this.tokenRefreshCallback(this.token);
         }
     }
