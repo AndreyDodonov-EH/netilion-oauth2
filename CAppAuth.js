@@ -2,8 +2,10 @@ const queryString = require('querystring');
 const CAuth = require('./CAuth');
 
 module.exports = class CAppAuth extends CAuth {
-    constructor() {
-        super(process.env.APP_AUTH_ENDPOINT);
+    constructor(authEndpoint, clientId, clientSecret, advanceRefresh, techUser, techPass) {
+        super(authEndpoint, clientId, clientSecret, advanceRefresh);
+        this.techUser = techUser;
+        this.techPass = techPass;
     }
 
     Authenticate() {
@@ -11,10 +13,10 @@ module.exports = class CAppAuth extends CAuth {
             this.authServer.post(
                 '/token',
                 queryString.stringify(Object.assign({}, {
-                    client_id: process.env.CLIENT_ID,
-                    client_secret: process.env.CLIENT_SECRET,
-                    username: process.env.TECH_USER,
-                    password: process.env.TECH_PASS
+                    client_id: this.clientId,
+                    client_secret: this.clientSecret,
+                    username: this.techUser,
+                    password: this.techPass
                 }, {grant_type: 'password'})),
                 {
                     headers: {

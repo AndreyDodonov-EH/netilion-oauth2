@@ -2,10 +2,13 @@ const axios = require('axios');
 const queryString = require('querystring');
 
 module.exports = class CAppAuth {
-    constructor(baseURL) {
+    constructor(authEndpoint, clientId, clientSecret, advanceRefresh) {
         this.authServer = axios.create({
-            baseURL: baseURL
+            baseURL: authEndpoint
         });
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.advanceRefresh = advanceRefresh;
     }
 
     GetToken() {
@@ -16,8 +19,8 @@ module.exports = class CAppAuth {
         this.authServer.post(
             '/revoke',
             queryString.stringify(Object.assign({}, {
-                client_id: process.env.CLIENT_ID,
-                client_secret: process.env.CLIENT_SECRET,
+                client_id: this.clientId,
+                client_secret: this.clientSecret,
                 token: this.token
             })),
             {
@@ -42,8 +45,8 @@ module.exports = class CAppAuth {
         this.authServer.post(
             '/token',
             queryString.stringify(Object.assign({}, {
-                client_id: process.env.CLIENT_ID,
-                client_secret: process.env.CLIENT_SECRET,
+                client_id: this.clientId,
+                client_secret: this.clientSecret,
                 refresh_token: this.refreshToken
             }, {grant_type: 'refresh_token'})),
             {
@@ -66,7 +69,7 @@ module.exports = class CAppAuth {
         console.log('NEW TOKEN SAVED');
         this.token = data.access_token;
         this.refreshToken = data.refresh_token;
-        setTimeout(this.refresh.bind(this), data.expires_in*1000*process.env.ADVANCE_REFRESH);
+        setTimeout(this.refresh.bind(this), data.expires_in*1000*this.advanceRefresh);
         if (this.tokenRefreshCallback !== undefined && typeof this.tokenRefreshCallback === 'function') {
             this.tokenRefreshCallback(this.token);
         }
