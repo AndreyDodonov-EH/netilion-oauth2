@@ -66,7 +66,6 @@ module.exports = class CAppAuth {
     }
 
     saveToken(data) {
-        console.log('NEW TOKEN SAVED');
         this.token = data.access_token;
         this.refreshToken = data.refresh_token;
         setTimeout(this.refresh.bind(this), data.expires_in*1000*this.advanceRefresh);
