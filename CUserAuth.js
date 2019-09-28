@@ -7,7 +7,7 @@ module.exports = class CUserAuth extends CAuth{
         this.redirectUri = redirectUri;
     }
 
-    Authenticate(appToken, authorization_code) {
+    Authenticate(authorization_code) {
         return new Promise((resolve, reject) => {
             this.authServer.post
             ('/token',
@@ -19,8 +19,7 @@ module.exports = class CUserAuth extends CAuth{
                 }, {grant_type: 'authorization_code'})),
                 {
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': 'Bearer ' + appToken
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }
             )
