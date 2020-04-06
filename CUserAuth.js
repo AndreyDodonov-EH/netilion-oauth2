@@ -35,4 +35,28 @@ module.exports = class CUserAuth extends CAuth{
                 })
         });
     }
+
+    Logout(token) {
+        return new Promise((resolve, reject) => {
+            this.authServer.post
+            ('/revoke',
+                queryString.stringify(Object.assign({}, {
+                    token: token
+                })),
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            )
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject();
+                })
+        });
+    }
+
 }
